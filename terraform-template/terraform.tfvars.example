@@ -1,0 +1,2 @@
+# Copy to terraform.tfvars (gitignored) and replace with real values.
+# Example: api_key = "set-via-TF_VAR_api_key-or-local-tfvars"
