@@ -1,0 +1,34 @@
+# macOS filesystem metadata
+.DS_Store
+**/.DS_Store
+
+# Terraform working directory (plugin cache, modules)
+.terraform/
+**/.terraform/
+
+# State (never commit; contains resource IDs and sometimes secrets)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Plans and crash dumps
+*.tfplan
+crash.log
+crash.*.log
+
+# Variable files with real values (API keys, regions, names)
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+
+# Local overrides
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Local environment
+.env
+.env.*
