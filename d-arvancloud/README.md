@@ -89,4 +89,4 @@ Pass `api_key` through `TF_VAR_api_key` or a gitignored `terraform.tfvars`. The 
 
 ## Next
 
-First implementation project: SSH keys under `aa-identity-and-access/`, then a private subnet under `ab-network-and-connectivity/`.
+Work queue: `TODO.md` (what we need from the ArvanCloud account, then implementation order). First code: SSH keys under `aa-identity-and-access/`.
