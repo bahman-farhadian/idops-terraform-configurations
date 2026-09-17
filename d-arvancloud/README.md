@@ -12,16 +12,26 @@ The public GitHub repo for this provider is archived. ArvanCloud also publishes 
 
 ## What This Provider Can Manage
 
+Mapped from `ResourcesMap` / `DataSourcesMap` in `arvancloud/arvan` 0.6.4 (`internal/provider/provider.go`). One folder per resource **group**, not per resource.
+
 | Domain | Resources |
 |---|---|
-| Identity | `arvan_iaas_sshkey` |
-| Network | `arvan_iaas_subnet`, `arvan_iaas_network_attach` / `_detach`, `arvan_iaas_floatip`, `arvan_iaas_ptr` |
-| Security groups | `arvan_iaas_security_group`, `arvan_iaas_security_group_rule`, assign/remove on Abrak |
-| Compute | `arvan_iaas_abrak`, actions, flavor/disk change, rename, rebuild |
-| Block storage | `arvan_iaas_volume`, attach/detach |
-| Snapshots | `arvan_iaas_abrak_snapshot` |
+| `aa-identity-and-access` | `arvan_iaas_sshkey` |
+| `ab-network-and-connectivity` | `arvan_iaas_subnet`, `arvan_iaas_network_attach`, `arvan_iaas_network_detach`, `arvan_iaas_floatip`, `arvan_iaas_ptr` |
+| `ac-security-groups` | `arvan_iaas_security_group`, `arvan_iaas_security_group_rule`, `arvan_iaas_abrak_assign_security_group`, `arvan_iaas_abrak_remove_security_group` |
+| `ad-compute` | `arvan_iaas_abrak`, `arvan_iaas_abrak_action`, `arvan_iaas_abrak_change_flavor`, `arvan_iaas_abrak_change_disk_size`, `arvan_iaas_abrak_rebuild`, `arvan_iaas_abrak_rename` |
+| `ae-block-storage` | `arvan_iaas_volume`, `arvan_iaas_volume_attach`, `arvan_iaas_volume_detach` |
+| `af-snapshots-and-recovery` | `arvan_iaas_abrak_snapshot` |
+| `ag-tags` | `arvan_iaas_tag`, `arvan_iaas_tag_attach`, `arvan_iaas_tag_detach`, `arvan_iaas_tag_replace_batch` |
 
-Useful data sources: images, networks, quotas, flavors/options, existing Abraks, volumes, SSH keys, security groups.
+Data sources (used inside those domains, not extra folders): `arvan_iaas_abrak`, `arvan_iaas_image`, `arvan_iaas_network`, `arvan_iaas_options`, `arvan_iaas_quota`, `arvan_iaas_security_group`, `arvan_iaas_sshkey`, `arvan_iaas_tag`, `arvan_iaas_volume`.
+
+## In The Provider, Not A Domain
+
+| Resource | Why it has no folder |
+|---|---|
+| `arvan_iaas_cdn_security_group` | Registered, but schema is only `region`. CDN leftover, not Cloud Server policy. |
+| `arvan_iaas_floatip_attach` / `_detach` | Commented out in the provider (`# TODO`). Not implemented. Public IP changes go through `arvan_iaas_abrak_action`. |
 
 ## What It Cannot Manage
 
@@ -35,6 +45,7 @@ Managed Kubernetes, object storage, DBaaS, CDN/DNS product, load balancers, acco
 4. `ad-compute` — Abraks and lifecycle
 5. `ae-block-storage` — extra volumes
 6. `af-snapshots-and-recovery` — VM snapshots
+7. `ag-tags` — labels and attach/detach on instances
 
 Physical servers and hypervisor hosts are cloud-owned. There is no `aa-physical-*` / `ab-hypervisor-*` here.
 
@@ -50,6 +61,7 @@ After Terraform apply, export data. The Ansible repo consumes it. Do not SSH fro
 | `ad-compute` | Abrak name, UUID, addresses | `ag-os-baseline-and-hardening` and everything above |
 | `ae-block-storage` | volume id, attachment | mkfs, mount, fstab |
 | `af-snapshots-and-recovery` | snapshot id | app-level backup / `as-backup-and-disaster-recovery` |
+| `ag-tags` | none | — |
 | *(no API here)* | — | `ah-container-runtime`, `ai-container-orchestration`, `aj-traffic-management`, `ak-databases`, `al-data-caching`, `am-message-brokers`, … |
 
 `init_script` on an Abrak stays empty or a one-shot bootstrap. Hardening and services are Ansible.

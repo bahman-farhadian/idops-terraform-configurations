@@ -31,7 +31,7 @@ Output Abrak name, UUID, and addresses. Those become Ansible inventory/vars in t
 ## Dependencies
 
 - Upstream: `aa-identity-and-access` (SSH key name), `ab-network-and-connectivity` (network UUID), `ac-security-groups` (group names)
-- Downstream: `ae-block-storage` (attach extra disks), `af-snapshots-and-recovery`
+- Downstream: `ae-block-storage` (attach extra disks), `af-snapshots-and-recovery`, `ag-tags` (attach needs instance id)
 
 ## Planned Project
 
